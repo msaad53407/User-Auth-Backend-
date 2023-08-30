@@ -115,7 +115,7 @@ app.get('/login', async (req, res) => {
     try {
         const id = req.query.id;
         const result = await client.connect(err => {
-            if(err){ console.error(err); return false;}
+            if (err) { console.error(err); return false; }
             // connection to mongo is successful, listen for requests
             app.listen(port, () => {
                 console.log("listening for requests");
