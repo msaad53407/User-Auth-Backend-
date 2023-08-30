@@ -53,7 +53,6 @@ app.post('/login', async (req, res) => {
         }
     } catch (error) {
         res.status(500).send(error)
-        client.close()
     } finally {
         console.log('client closed')
         client.close()
@@ -106,7 +105,6 @@ app.post('/signup', async (req, res) => {
         }
     } catch (error) {
         res.status(500).send(error)
-        // client.close()
     } finally {
         console.log('client closed')
         client.close()
