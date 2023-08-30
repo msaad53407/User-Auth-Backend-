@@ -9,7 +9,7 @@ require('dotenv').config()
 app.use(cors())
 app.use(express.json())
 
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 // Setting up MongoDB
 const uri = process.env.MONGO_DB_URI
 const dbName = 'Authentication'
@@ -26,7 +26,13 @@ const client = new MongoClient(uri, {
 app.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
-        const result = await client.connect();
+        const result = await client.connect(err => {
+            if (err) { console.error(err); return false; }
+            // connection to mongo is successful, listen for requests
+            app.listen(port, () => {
+                console.log("listening for requests");
+            })
+        });
         await client.db(dbName).command({ ping: 1 })
         console.log('Connected to MongoDB Successfully')
 
@@ -57,7 +63,13 @@ app.post('/login', async (req, res) => {
 app.post('/signup', async (req, res) => {
     try {
         const { username, password } = req.body;
-        const result = await client.connect();
+        const result = await client.connect(err => {
+            if (err) { console.error(err); return false; }
+            // connection to mongo is successful, listen for requests
+            app.listen(port, () => {
+                console.log("listening for requests");
+            })
+        });
         await client.db(dbName).command({ ping: 1 })
         console.log('Connected to MongoDB Successfully')
 
@@ -104,7 +116,13 @@ app.post('/signup', async (req, res) => {
 app.get('/login', async (req, res) => {
     try {
         const id = req.query.id;
-        const result = await client.connect();
+        const result = await client.connect(err => {
+            if(err){ console.error(err); return false;}
+            // connection to mongo is successful, listen for requests
+            app.listen(port, () => {
+                console.log("listening for requests");
+            })
+        });
         await client.db(dbName).command({ ping: 1 })
         console.log('Connected to MongoDB Successfully')
         const db = result.db(dbName)
