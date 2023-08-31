@@ -2,13 +2,9 @@ const express = require('express');
 const app = express();
 const { mongodb, MongoClient, ServerApiVersion } = require('mongodb')
 const ObjectId = require('mongodb').ObjectId;
-const cors = require('cors');
 
 require('dotenv').config()
 
-app.use(cors({
-    origin: 'http://localhost:5173'
-}));
 app.use(express.json())
 
 const port = process.env.PORT || 5000;
@@ -25,7 +21,11 @@ const client = new MongoClient(uri, {
 });
 
 
-app.post('/login', async (req, res) => {
+app.post('/login', async (req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
     try {
         const { username, password } = req.body;
         const result = await client.connect(err => {
@@ -61,7 +61,11 @@ app.post('/login', async (req, res) => {
     }
 })
 
-app.post('/signup', async (req, res) => {
+app.post('/signup', async (req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
     try {
         const { username, password } = req.body;
         const result = await client.connect(err => {
@@ -113,7 +117,11 @@ app.post('/signup', async (req, res) => {
     }
 })
 
-app.get('/login', async (req, res) => {
+app.get('/login', async (req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
     try {
         const id = req.query.id;
         const result = await client.connect(err => {
