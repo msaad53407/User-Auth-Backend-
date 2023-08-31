@@ -2,11 +2,11 @@ const express = require('express');
 const app = express();
 const { mongodb, MongoClient, ServerApiVersion } = require('mongodb')
 const ObjectId = require('mongodb').ObjectId;
-const cors = require('cors');
+// const cors = require('cors');
 
 require('dotenv').config()
 
-app.use(cors())
+// app.use(cors());
 app.use(express.json())
 
 const port = process.env.PORT || 5000;
@@ -24,7 +24,6 @@ const client = new MongoClient(uri, {
 
 
 app.post('/login', async (req, res) => {
-    res.appendHeader('Access-Control-Allow-Origin', '*')
     try {
         const { username, password } = req.body;
         const result = await client.connect(err => {
@@ -61,8 +60,6 @@ app.post('/login', async (req, res) => {
 })
 
 app.post('/signup', async (req, res) => {
-    res.appendHeader('Access-Control-Allow-Origin', '*')
-
     try {
         const { username, password } = req.body;
         const result = await client.connect(err => {
@@ -115,9 +112,6 @@ app.post('/signup', async (req, res) => {
 })
 
 app.get('/login', async (req, res) => {
-    res.appendHeader('Access-Control-Allow-Origin', '*')
-
-
     try {
         const id = req.query.id;
         const result = await client.connect(err => {
@@ -157,8 +151,6 @@ app.get('/login', async (req, res) => {
 })
 
 app.get('/', function (req, res) {
-    res.appendHeader('Access-Control-Allow-Origin', '*')
-
     res.send('Hello')
 })
 
